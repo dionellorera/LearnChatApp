@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "818683419355",
+    "project_id": "practice-chat-sign-in"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:818683419355:android:dd68a16d325788f1",
+        "android_client_info": {
+          "package_name": "com.example.dione.learnchatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "818683419355-b44q3qm33uv0bl7gpjmjnghtsfojae37.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dione.learnchatapp",
+            "certificate_hash": "3D8B400573E34B1D9FF2AD6536A2D6D21D57B4C0"
+          }
+        },
+        {
+          "client_id": "818683419355-t197rs5tud1rl941kl87h54kk27p0ieo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBazMFdXbZFVrcc1tNhHM0aO3sRfah8eN4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
