@@ -10,14 +10,14 @@
     <TextView
         android:textColor="#000000"
         android:id="@+id/textName"
-        android:layout_weight="0.2"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
         android:text="Name"/>
 
     <TextView
         android:id="@+id/textMessage"
-        android:layout_weight="0.8"
+        android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Message"/>
