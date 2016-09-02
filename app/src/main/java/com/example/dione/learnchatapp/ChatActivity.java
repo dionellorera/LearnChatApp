@@ -49,6 +49,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     RecyclerView chatRecyclerView;
     ChatAdapter chatAdapter;
     List<Chat> chatList;
+    private String mUser;
     private Socket mSocket;
     {
         try {
@@ -64,8 +65,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 public void run() {
                     JSONObject data = (JSONObject) args[0];
                     try {
-                        chatList.add(new Chat(data.getString("username"),data.getString("message")));
+                        chatList.add(new Chat(data.getString("username"), data.getString("message")));
                         chatAdapter.notifyDataSetChanged();
+                        chatRecyclerView.scrollToPosition(chatList.size()-1);
                     } catch (JSONException e) {
                         return;
                     }
@@ -84,6 +86,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mUser = String.format("%s %s", MainActivity.mSharedPreferenceManager.getStringPreferences(Constants.LASTNAME_TAG, ""),
+                MainActivity.mSharedPreferenceManager.getStringPreferences(Constants.FIRSTNAME_TAG, ""));
         setTitle(String.format("%s %s, %s", "Welcome",
                 MainActivity.mSharedPreferenceManager.getStringPreferences(Constants.LASTNAME_TAG, ""),
                 MainActivity.mSharedPreferenceManager.getStringPreferences(Constants.FIRSTNAME_TAG, "")));
@@ -92,6 +96,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         initDoneButtonListener();
         mSocket.on("new message", onNewMessage);
         mSocket.connect();
+        mSocket.emit("add user", MainActivity.mSharedPreferenceManager.getStringPreferences(Constants.FIRSTNAME_TAG, ""));
         setChatAdapter();
 
     }
@@ -112,7 +117,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setChatAdapter(){
         chatAdapter = new ChatAdapter(chatList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+//        linearLayoutManager.setStackFromEnd(true);
+        RecyclerView.LayoutManager mLayoutManager = linearLayoutManager;
         chatRecyclerView.setLayoutManager(mLayoutManager);
         chatRecyclerView.setItemAnimator(new DefaultItemAnimator());
         chatRecyclerView.setAdapter(chatAdapter);
@@ -126,14 +133,14 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
                     if (!editTextMessage.getText().toString().isEmpty()){
                         mSocket.emit("new message", editTextMessage.getText().toString());
-                        chatList.add(new Chat("Dione", editTextMessage.getText().toString()));
+                        chatList.add(new Chat(MainActivity.mSharedPreferenceManager.getStringPreferences(Constants.FIRSTNAME_TAG, ""), editTextMessage.getText().toString()));
                         chatAdapter.notifyDataSetChanged();
+                        chatRecyclerView.scrollToPosition(chatList.size()-1);
                         editTextMessage.setText("");
                         editTextMessage.setError(null);
                     }else{
                         editTextMessage.setError("Required");
                     }
-
                     handled = true;
                 }
                 return handled;
@@ -176,8 +183,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.imageViewSendMessage:
                 if (!editTextMessage.getText().toString().isEmpty()){
                     mSocket.emit("new message", editTextMessage.getText().toString());
-                    chatList.add(new Chat("Dione", editTextMessage.getText().toString()));
+                    chatList.add(new Chat(MainActivity.mSharedPreferenceManager.getStringPreferences(Constants.FIRSTNAME_TAG, ""), editTextMessage.getText().toString()));
                     chatAdapter.notifyDataSetChanged();
+                    chatRecyclerView.scrollToPosition(chatList.size()-1);
                     editTextMessage.setText("");
                     editTextMessage.setError(null);
                 }else{
